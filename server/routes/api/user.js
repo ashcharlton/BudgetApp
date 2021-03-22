@@ -10,15 +10,17 @@ const auth = require('../../middleware/auth');
 
 router.get('/', auth, async (req, res) => {
   try {
-
-    console.log(req.user);
-    res.status(200).json({
+console.log("User", req.user);
+    return res.status(200).json({
       user: {
-        id: res.user._id,
+        id: req.user._id,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        role: req.user.role
       }
     });
   } catch (error) {
-    console.log(error);
+    console.log("error", error);
 
     res.status(400).json({
       error: 'Your request could not be processed. Please try again.'

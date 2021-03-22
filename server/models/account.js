@@ -16,6 +16,9 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  selected: {
+    type: Boolean,
+  },
   updated: Date,
   created: {
     type: Date,

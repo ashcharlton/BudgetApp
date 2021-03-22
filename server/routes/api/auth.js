@@ -74,7 +74,7 @@ router.post('/register', (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const password = req.body.password;
-  const isSubscribed = req.body.isSubscribed;
+  const confirmPassword = req.body.confirmPassword
 
   if (!email) {
     return res.status(400).json({ error: 'You must enter an email address.' });
@@ -88,6 +88,10 @@ router.post('/register', (req, res) => {
     return res.status(400).json({ error: 'You must enter a password.' });
   }
 
+  if(password !== confirmPassword){
+    return res.status(400).json({error: 'The passwords do not match.'})
+  }
+
   User.findOne({ email }, async (err, existingUser) => {
     if (err) {
       next(err);
@@ -98,15 +102,6 @@ router.post('/register', (req, res) => {
         .status(400)
         .json({ error: 'That email address is already in use.' });
     }
-
-    let subscribed = false;
-    // if (isSubscribed) {
-    //   const result = await mailchimp.subscribeToNewsletter(email);
-
-    //   if (result.status === 'subscribed') {
-    //     subscribed = true;
-    //   }
-    // }
 
     const user = new User({
       email,
@@ -119,7 +114,8 @@ router.post('/register', (req, res) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
         if (err) {
           return res.status(400).json({
-            error: 'Your request could not be processed. Please try again.'
+            error: 'Your request could not be processed. Please try again.',
+            message: err
           });
         }
 
@@ -128,7 +124,8 @@ router.post('/register', (req, res) => {
         user.save(async (err, user) => {
           if (err) {
             return res.status(400).json({
-              error: 'Your request could not be processed. Please try again.'
+              error: 'Your request could not be processed. Please try again.',
+              message: err
             });
           }
 

@@ -22,6 +22,7 @@
     "webpack"
   ],
   "dependencies": {
+    "antd": "^4.14.0",
     "aws-sdk": "^2.799.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
@@ -60,7 +61,9 @@
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "reflexbox": "^4.0.6",
     "simple-line-icons": "^2.4.1",
+    "styled-components": "^5.2.1",
     "validatorjs": "^3.18.1"
   },
   "devDependencies": {

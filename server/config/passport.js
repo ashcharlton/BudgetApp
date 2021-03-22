@@ -20,7 +20,6 @@ opts.secretOrKey = secret;
 
 passport.use(
   new JwtStrategy(opts, (payload, done) => {
-      console.log(opts);
      
     User.findById(payload.id)
       .then(user => {

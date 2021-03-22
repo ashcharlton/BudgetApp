@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "editor.fontWeight": null,
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "prettier.useEditorConfig": false
+}

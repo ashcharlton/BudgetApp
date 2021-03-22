@@ -19,23 +19,10 @@ const UserSchema = new Schema({
   password: {
     type: String
   },
-  merchant: {
-    type: Schema.Types.ObjectId,
-    ref: 'Merchant',
-    default: null
-  },
   provider: {
     type: String,
     required: true,
     default: 'email'
-  },
-  googleId: {
-    type: String,
-    unique: true
-  },
-  facebookId: {
-    type: String,
-    unique: true
   },
   avatar: {
     type: String

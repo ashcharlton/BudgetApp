@@ -136,5 +136,60 @@ router.put('/', auth, async (req, res) => {
   }
 });
 
+router.get('/', auth, async (req, res) => {
+  try {
+    console.log("getting accounts")
+    const accounts = Account.find({
+        user: req.user._id
+    }, 
+    (err, accounts) => {
+        res.status(200).json({
+          success: true,
+          accounts
+        });
+      });
+ 
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      error: 'Your request could not be processed. Please try again.'
+    });
+  }
+});
+
+router.put('/selected', auth, async (req, res) => {
+  try {
+    const accounts = Account.find({
+        user: req.user._id
+    }, 
+    (err, accounts) => {
+
+      accounts.map(a => {
+        a.selected = req.body.account.id == a._id;
+      });
+
+      const unselectRes = Account.updateMany({selected: true}, {selected: false}, null, (err, updateManyRes) => {
+        Account.updateOne({_id: req.body.account.id}, {selected: true}, null, (err, updateRes) => {
+          console.log(updateRes.n);
+          console.log(req.body);
+          return res.status(200).json({
+            success: true,
+            account: req.body.account
+          });
+        })
+      });
+    })
+ 
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      error: 'Your request could not be processed. Please try again.'
+    });
+  }
+});
+
+
 
 module.exports = router;

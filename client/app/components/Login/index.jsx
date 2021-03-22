@@ -5,28 +5,25 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-export default function Register() {
+export default function Login() {
 	const [form] = Form.useForm();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
 
 	const { isLoading, error, data, refetch } = useQuery(
 		[
-			'register',
+			'login',
 			{
 				email,
 				password,
-				firstName,
-				lastName,
-				confirmPassword,
 			},
 		],
 		(props) => {
 			return axios
-				.post('/api/auth/register', props.queryKey[1])
+				.post('/api/auth/login', {
+					email: props.queryKey[1].email,
+					password: props.queryKey[1].password,
+				})
 				.then(function (res) {
 					return res;
 				})
@@ -66,12 +63,6 @@ export default function Register() {
 				<Card>
 					<Box>
 						<Form name='login' onFinish={onFinish} layout='vertical'>
-							<Form.Item label='First Name' name='firstName'>
-								<Input onChange={(event) => setFirstName(event.target.value)} />
-							</Form.Item>
-							<Form.Item label='Last Name' name='lastName'>
-								<Input onChange={(event) => setLastName(event.target.value)} />
-							</Form.Item>
 							<Form.Item label='Email Address' name='email'>
 								<Input onChange={(event) => setEmail(event.target.value)} />
 							</Form.Item>
@@ -80,18 +71,13 @@ export default function Register() {
 									onChange={(event) => setPassword(event.target.value)}
 								/>
 							</Form.Item>
-							<Form.Item label='Confirm Password' name='confirmPassword'>
-								<Input.Password
-									onChange={(event) => setConfirmPassword(event.target.value)}
-								/>
-							</Form.Item>
 							<Form.Item>
 								<Flex justifyContent='space-between'>
-									<Button type='link' href='/login' loading={isLoading}>
-										Login
+									<Button type='link' href='/register' loading={isLoading}>
+										Register
 									</Button>
 									<Button htmlType='submit' loading={isLoading}>
-										Register
+										Login
 									</Button>
 								</Flex>
 							</Form.Item>
